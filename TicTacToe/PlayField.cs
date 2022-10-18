@@ -2,13 +2,13 @@
 
 public class PlayField
 {
-    private static int    matrixSize;
-    private static int[,] playField;
-    private static int[]  lineWeight;
-    private        int[]  lineFilling;
-    private static int    lineCount;
-    const          int    DIAGONAL_COUNT = 2;
-    const          int    SIDE_COUNT     = 2;
+    protected static int     matrixSize;
+    protected static int[,]? playField;
+    protected static int[]?  lineWeight;
+    protected static int[]   lineFilling;
+    protected static int     lineCount;
+    protected const  int     DIAGONAL_COUNT = 2;
+    protected const  int     SIDE_COUNT     = 2;
 
     public PlayField(int inputSize)
     {
@@ -21,14 +21,17 @@ public class PlayField
         IdentifierFillLines();
     }
 
-    public int this[int i, int i1]
+    public int this[int column, int row]
     {
-        get => playField[i, i1];
-        set => playField[i, i1] = value;
+        get => playField[column, row];
+        set => playField[column, row] = value;
     }
 
     public int GetLength(int side) => playField.GetLength(side);
-    void IdentifierFillLines()
+        /// <summary>
+        /// определение заполнения линий в нат числах 
+        /// </summary>
+    public void IdentifierFillLines()
     {
         int i = 0;
         for (int j = 0; j < playField.GetLength(0); j++)
@@ -49,7 +52,7 @@ public class PlayField
             i++;
         }
     }
-    private int GetFillDiagonalSum(int inputDiagonal)
+    protected int GetFillDiagonalSum(int inputDiagonal)
     {
         int sum = 0;
         if (inputDiagonal == 0)
@@ -76,7 +79,7 @@ public class PlayField
 
         return sum;
     }
-    private int GetFillColumnCount(int inputColumn)
+    protected int GetFillColumnCount(int inputColumn)
     {
         int sum = 0;
         for (int i = 0; i < playField.GetLength(0); i++)
@@ -89,7 +92,7 @@ public class PlayField
 
         return sum;
     }
-    private int GetFillRowCount(int inputRow)
+    protected int GetFillRowCount(int inputRow)
     {
         int sum = 0;
         for (int i = 0; i < playField.GetLength(1); i++)
@@ -103,29 +106,36 @@ public class PlayField
         return sum;
     }
 
-
-    private static void FillLineWeight()
+    /// <summary>
+    /// баллы в линиях по сумме заполненной внутри
+    /// баллы считаются так
+    /// -1 один игрок
+    /// 1 другой игрок
+    /// в квадрате 3х3 если линия заполнена полностью
+    /// то ее вес 3 либо -3
+    /// </summary>
+    public void FillLineWeight()
     {
         int i = 0;
         for (int j = 0; j < playField.GetLength(0); j++)
         {
-            lineWeight[i] = GetRowSum(j);
+            if (lineWeight != null) lineWeight[i] = GetRowSum(j);
             i++;
         }
 
         for (int j = 0; j < playField.GetLength(1); j++)
         {
-            lineWeight[i] = GetColumnSum(j);
+            if (lineWeight != null) lineWeight[i] = GetColumnSum(j);
             i++;
         }
 
         for (int j = 0; j < DIAGONAL_COUNT; j++)
         {
-            lineWeight[i] = GetDiagonalSum(j);
+            if (lineWeight != null) lineWeight[i] = GetDiagonalSum(j);
             i++;
         }
     }
-    private static int GetDiagonalSum(int inputDiagonal)
+    protected static int GetDiagonalSum(int inputDiagonal)
     {
         int sum = 0;
         if (inputDiagonal == 0)
@@ -146,7 +156,7 @@ public class PlayField
 
         return sum;
     }
-    private static int GetColumnSum(int inputColumn)
+    protected static int GetColumnSum(int inputColumn)
     {
         int sum = 0;
         for (int i = 0; i < playField.GetLength(0); i++)
@@ -156,7 +166,7 @@ public class PlayField
 
         return sum;
     }
-    private static int GetRowSum(int inputRow)
+    protected static int GetRowSum(int inputRow)
     {
         int sum = 0;
         for (int i = 0; i < playField.GetLength(1); i++)

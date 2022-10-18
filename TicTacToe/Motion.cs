@@ -9,9 +9,10 @@ public class Motion
     private const int       FIRST_PLAYER  = 1;
     private const int       SECOND_PLAYER = -1;
 
-    public Motion(PlayField playField)
+    public Motion(PlayField playField, PlayField inMatrix)
     {
-        MatrixCopy(inMatrix, playField);
+        this.inMatrix = inMatrix;
+        if (inMatrix != null) MatrixCopy(inMatrix, playField);
     }
     /// <summary>
     /// Копирование матрицы 
@@ -40,11 +41,10 @@ public class Motion
             inMatrix[row, column] = SECOND_PLAYER;
         }
     }
-    public Motion GetComputerMotion()
+    public Motion SetMotion(int inColumn, int inRow)
     {
-        List<Motion> computerMotions = new List<Motion>();
-        computerMotions = inMatrix.GetCoordinated();
-        return FindRight(computerMotions);
+        // List<Motion> computerMotions = new List<Motion>();
+        // computerMotions = inMatrix.GetCoordinated();
+        // return FindRight(computerMotions);
     }
-   
 }
