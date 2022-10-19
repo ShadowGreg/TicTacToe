@@ -2,13 +2,14 @@
 
 public class PlayField
 {
+    protected const  int     DIAGONAL_COUNT = 2;
+    protected const  int     SIDE_COUNT     = 2;
     protected static int     matrixSize;
     protected static int[,]? playField;
     protected static int[]?  lineWeight;
     protected static int[]   lineFilling;
-    protected static int     lineCount;
-    protected const  int     DIAGONAL_COUNT = 2;
-    protected const  int     SIDE_COUNT     = 2;
+
+    protected static int lineCount;
 
     public PlayField(int inputSize)
     {
@@ -21,16 +22,30 @@ public class PlayField
         IdentifierFillLines();
     }
 
+    public int[]? LineWeight
+    {
+        get => lineWeight;
+    }
+
+    public int[] LineFilling
+    {
+        get => lineFilling;
+    }
+
     public int this[int column, int row]
     {
         get => playField[column, row];
         set => playField[column, row] = value;
     }
 
-    public int GetLength(int side) => playField.GetLength(side);
-        /// <summary>
-        /// определение заполнения линий в нат числах 
-        /// </summary>
+    public int GetLength(int side)
+    {
+        return playField.GetLength(side);
+    }
+
+    /// <summary>
+    ///     определение заполнения линий в нат числах
+    /// </summary>
     public void IdentifierFillLines()
     {
         int i = 0;
@@ -107,12 +122,12 @@ public class PlayField
     }
 
     /// <summary>
-    /// баллы в линиях по сумме заполненной внутри
-    /// баллы считаются так
-    /// -1 один игрок
-    /// 1 другой игрок
-    /// в квадрате 3х3 если линия заполнена полностью
-    /// то ее вес 3 либо -3
+    ///     баллы в линиях по сумме заполненной внутри
+    ///     баллы считаются так
+    ///     -1 один игрок
+    ///     1 другой игрок
+    ///     в квадрате 3х3 если линия заполнена полностью
+    ///     то ее вес 3 либо -3
     /// </summary>
     public void FillLineWeight()
     {
