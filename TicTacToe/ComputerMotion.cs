@@ -5,9 +5,9 @@ public class ComputerMotion: IMotion
     private static          PlayField inPlayField;
     private static          int[]     localLineFilling;
     private static          int[]     localLineWeight;
+    private static readonly int[]     motionArray = new int[inPlayField.GetLength(0) * inPlayField.GetLength(0)];
     private readonly        int       ballO       = -1;
     private readonly        int       ballX       = 1;
-    private static readonly int[]     motionArray = new int[inPlayField.GetLength(0) * inPlayField.GetLength(0)];
 
     public bool StepMotions(
         int motionColumn,
@@ -43,9 +43,55 @@ public class ComputerMotion: IMotion
         localLineWeight  = inPlayField.LineWeight;
         localLineFilling = inPlayField.LineFilling;
     }
+    public List<int> GetMaxScoreLineOpponent()
+    {
+        List<int> coords = new List<int>();
+
+        return coords;
+    }
+    public List<int> GetMaxScoreLineComputer()
+    {
+        List<int> coords = new List<int>();
+
+        return coords;
+    }
 
     private void FillMotionArray()
     {
-        
+    }
+}
+
+//этот класс будет в себе хранить все направления линий подсчёта очков и занятости линий с расшифровкой - 
+//какие в этих линиях есть ячейки
+internal class DTOMotion
+{
+    private const           int               XY_COORD      = 2;
+    private static readonly int[]             param         = new int[XY_COORD];
+    private readonly        List<List<int[]>> listLineParam = new List<List<int[]>>();
+
+
+    public DTOMotion(int inputMatrixSize)
+    {
+        for (int i = 0; i < inputMatrixSize * inputMatrixSize + 2; i++)
+        {
+            for (int j = 0; j < inputMatrixSize; j++)
+            {
+                for (int k = 0; k < inputMatrixSize; k++)
+                {
+                    param[0] = j;
+                    param[1] = k;
+                    listLineParam[i].Add(param);
+                }
+            }
+        }
+    }
+    public void SetLineParam(int[] inputLineWeight, int[] inputLineFilling)
+    {
+        for (int i = 0; i < inputLineWeight.Length; i++)
+        {
+            param[0] = inputLineFilling[i];
+            param[1] = inputLineWeight[i];
+            listLineParam[i].Add(param);
+        }
     }
 }
