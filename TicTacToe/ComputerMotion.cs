@@ -2,28 +2,32 @@
 
 public class ComputerMotion: IMotion
 {
-    private static          PlayField inPlayField;
-    private static          int[]     localLineFilling;
-    private static          int[]     localLineWeight;
-    private static readonly int[]     motionArray = new int[inPlayField.GetLength(0) * inPlayField.GetLength(0)];
-    private readonly        int       ballO       = -1;
-    private readonly        int       ballX       = 1;
+    private static          PlayField  inPlayField;
+    private static          int[]      localLineFilling;
+    private static          int[]      localLineWeight;
+    private static readonly int[]      motionArray = new int[inPlayField.GetLength(0) * inPlayField.GetLength(0)];
+    private readonly        int        ballO       = -1;
+    private readonly        int        ballX       = 1;
+    private readonly        PlayerIcon setPlayerIcon;
 
+    public ComputerMotion(PlayerIcon inputIcon)
+    {
+        setPlayerIcon = inputIcon;
+    }
     public bool StepMotions(
         int motionColumn,
         int motionRow,
-        PlayerIcon playerPosition,
         PlayField inputPlayField
     )
     {
         inPlayField = inputPlayField;
         if (inputPlayField[motionColumn, motionRow] == 0)
         {
-            if (playerPosition == PlayerIcon.O)
+            if (setPlayerIcon == PlayerIcon.O)
             {
                 inputPlayField[motionColumn, motionRow] = ballO;
             }
-            else if (playerPosition == PlayerIcon.X)
+            else if (setPlayerIcon == PlayerIcon.X)
             {
                 inputPlayField[motionColumn, motionRow] = ballX;
             }
@@ -33,50 +37,33 @@ public class ComputerMotion: IMotion
 
         return false;
     }
-    private static void FindMotion()
-    {
-        /// для некоего набора ходов определить самый важный или любой из равныйх
-        foreach (int motionItem in motionArray)
-        {
-        }
 
-        localLineWeight  = inPlayField.LineWeight;
-        localLineFilling = inPlayField.LineFilling;
-    }
-    public List<int> GetMaxScoreLineOpponent()
-    {
-        List<int> coords = new List<int>();
-
-        return coords;
-    }
-    public List<int> GetMaxScoreLineComputer()
-    {
-        List<int> coords = new List<int>();
-
-        return coords;
-    }
 
     private void FillMotionArray()
     {
     }
 }
 
-//этот класс будет в себе хранить все направления линий подсчёта очков и занятости линий с расшифровкой - 
-//какие в этих линиях есть ячейки
-internal class DTOMotion
+// этот класс обрабатывает игровое поле и позволяет получить важные для хода клетки 
+internal class ImportanceCells
 {
-    private const           int               XY_COORD      = 2;
-    private static readonly int[]             param         = new int[XY_COORD];
+    private const           int               XY_COORD = 2;
+    private static          PlayField         inPlayField;
+    private static readonly int[]             param = new int[XY_COORD];
+    private readonly        int[]             inputLineFilling;
+    private readonly        int[]             inputLineWeight;
     private readonly        List<List<int[]>> listLineParam = new List<List<int[]>>();
+    private readonly        int               matrixSize;
 
 
-    public DTOMotion(int inputMatrixSize)
+    public ImportanceCells(PlayField inputPlayField)
     {
-        for (int i = 0; i < inputMatrixSize * inputMatrixSize + 2; i++)
+        matrixSize = inputPlayField.GetLength(0);
+        for (int i = 0; i < matrixSize * matrixSize + 2; i++)
         {
-            for (int j = 0; j < inputMatrixSize; j++)
+            for (int j = 0; j < matrixSize; j++)
             {
-                for (int k = 0; k < inputMatrixSize; k++)
+                for (int k = 0; k < matrixSize; k++)
                 {
                     param[0] = j;
                     param[1] = k;
@@ -84,14 +71,27 @@ internal class DTOMotion
                 }
             }
         }
+
+        inputLineFilling = inputPlayField.LineFilling;
+        inputLineWeight  = inputPlayField.LineWeight;
     }
-    public void SetLineParam(int[] inputLineWeight, int[] inputLineFilling)
+    public int[,] GetCellWeight()
     {
-        for (int i = 0; i < inputLineWeight.Length; i++)
+        int[,] cellWeight = new int[matrixSize, matrixSize];
+        for (int i = 0; i < matrixSize; i++)
         {
-            param[0] = inputLineFilling[i];
-            param[1] = inputLineWeight[i];
-            listLineParam[i].Add(param);
+            for (int j = 0; j < matrixSize; j++)
+            {
+                cellWeight[i, j] = GetWeight(i, j);
+            }
         }
+
+        return cellWeight;
+    }
+    private static int GetWeight(int rowCoord, int columnCoord)
+    {
+        int localWeight = 0;
+
+        return localWeight;
     }
 }

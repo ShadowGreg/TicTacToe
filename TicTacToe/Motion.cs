@@ -2,25 +2,29 @@
 
 public class Motion: IMotion
 {
-    private readonly int ballO = -1;
-    private readonly int ballX = 1;
+    private const    int        BallO = -1;
+    private const    int        BallX = 1;
+    private readonly PlayerIcon _playerPosition;
 
+    public Motion(PlayerIcon inputIcon)
+    {
+        _playerPosition = inputIcon;
+    }
     public bool StepMotions(
         int motionColumn,
         int motionRow,
-        PlayerIcon playerPosition,
         PlayField inputPlayField
     )
     {
         if (inputPlayField[motionColumn, motionRow] == 0)
         {
-            if (playerPosition == PlayerIcon.O)
+            if (_playerPosition == PlayerIcon.O)
             {
-                inputPlayField[motionColumn, motionRow] = ballO;
+                inputPlayField[motionColumn, motionRow] = BallO;
             }
-            else if (playerPosition == PlayerIcon.X)
+            else if (_playerPosition == PlayerIcon.X)
             {
-                inputPlayField[motionColumn, motionRow] = ballX;
+                inputPlayField[motionColumn, motionRow] = BallX;
             }
 
             return true;

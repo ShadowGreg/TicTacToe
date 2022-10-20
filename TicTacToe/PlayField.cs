@@ -2,9 +2,9 @@
 
 public class PlayField
 {
-    protected const  int     DIAGONAL_COUNT = 2;
-    protected const  int     SIDE_COUNT     = 2;
-    protected static int     matrixSize;
+    protected const  int     DiagonalCount = 2;
+    protected const  int     SideCount     = 2;
+    protected static int     MatrixSize;
     protected static int[,]? playField;
     protected static int[]?  lineWeight;
     protected static int[]   lineFilling;
@@ -13,9 +13,9 @@ public class PlayField
 
     public PlayField(int inputSize)
     {
-        matrixSize = inputSize;
-        playField  = new int[matrixSize, matrixSize];
-        lineCount  = inputSize * SIDE_COUNT + DIAGONAL_COUNT;
+        MatrixSize = inputSize;
+        playField  = new int[MatrixSize, MatrixSize];
+        lineCount  = inputSize * SideCount + DiagonalCount;
         lineWeight = new int[lineCount];
         FillLineWeight();
         lineFilling = new int[lineCount];
@@ -61,7 +61,7 @@ public class PlayField
             i++;
         }
 
-        for (int j = 0; j < DIAGONAL_COUNT; j++)
+        for (int j = 0; j < DiagonalCount; j++)
         {
             lineFilling[i] = GetFillDiagonalSum(j);
             i++;
@@ -72,7 +72,7 @@ public class PlayField
         int sum = 0;
         if (inputDiagonal == 0)
         {
-            for (int i = 0; i < matrixSize; i++)
+            for (int i = 0; i < MatrixSize; i++)
             {
                 if (playField[i, i] != 0)
                 {
@@ -83,7 +83,7 @@ public class PlayField
 
         if (inputDiagonal == 1)
         {
-            for (int i = matrixSize - 1; i >= 0; i--)
+            for (int i = MatrixSize - 1; i >= 0; i--)
             {
                 if (playField[i, i] != 0)
                 {
@@ -144,7 +144,7 @@ public class PlayField
             i++;
         }
 
-        for (int j = 0; j < DIAGONAL_COUNT; j++)
+        for (int j = 0; j < DiagonalCount; j++)
         {
             if (lineWeight != null) lineWeight[i] = GetDiagonalSum(j);
             i++;
@@ -155,7 +155,7 @@ public class PlayField
         int sum = 0;
         if (inputDiagonal == 0)
         {
-            for (int i = 0; i < matrixSize; i++)
+            for (int i = 0; i < MatrixSize; i++)
             {
                 sum = sum + playField[i, i];
             }
@@ -163,7 +163,7 @@ public class PlayField
 
         if (inputDiagonal == 1)
         {
-            for (int i = matrixSize - 1; i >= 0; i--)
+            for (int i = MatrixSize - 1; i >= 0; i--)
             {
                 sum = sum + playField[i, i];
             }

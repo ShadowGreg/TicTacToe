@@ -15,10 +15,10 @@ public class MotionTests: PlayField
                             [1, 1] = 1,
                             [1, 2] = 1
                         };
-        var testMotion = new Motion();
+        var testMotion = new Motion(playerIcon);
         int testColumn = 2;
         int testRow = 2;
-        bool motionItem = testMotion.StepMotions(testColumn, testRow, playerIcon, playField);
+        bool motionItem = testMotion.StepMotions(testColumn, testRow, playField);
         int actualItem = playField[testColumn, testRow];
         int expectedItem = -1;
         Assert.AreEqual(expectedItem, actualItem);
@@ -33,11 +33,11 @@ public class MotionTests: PlayField
                             [1, 1] = 1,
                             [1, 2] = 1
                         };
-        var testMotion = new Motion();
+        var testMotion = new Motion(playerIcon);
         int testColumn = 2;
         int testRow = 2;
-        bool motionItemFirst = testMotion.StepMotions(testColumn, testRow, playerIcon, playField);
-        bool actualMotionItem = testMotion.StepMotions(testColumn, testRow, playerIcon, playField);
+        bool motionItemFirst = testMotion.StepMotions(testColumn, testRow, playField);
+        bool actualMotionItem = testMotion.StepMotions(testColumn, testRow, playField);
         bool expectedItem = false;
         Assert.AreEqual(expectedItem, actualMotionItem);
     }
