@@ -2,8 +2,9 @@
 
 public class Motion: IMotion
 {
-    private const    int        BallO = -1;
-    private const    int        BallX = 1;
+    private const int BallO = -2;
+    private const int BallX = 2;
+
     private readonly PlayerIcon _playerPosition;
 
     public Motion(PlayerIcon inputIcon)
