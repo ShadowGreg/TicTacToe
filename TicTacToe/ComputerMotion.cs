@@ -7,7 +7,7 @@ public class ComputerMotion: IMotion
     private static          PlayField  inPlayField;
     private static          int[]      localLineFilling;
     private static          int[]      localLineWeight;
-    private static readonly int[]      motionArray = new int[inPlayField.GetLength(0) * inPlayField.GetLength(0)];
+    private static readonly int[]      motionArray = new int[inPlayField.GetLength() * inPlayField.GetLength()];
     private readonly        PlayerIcon setPlayerIcon;
 
     public ComputerMotion(PlayerIcon inputIcon)
