@@ -3,9 +3,9 @@
 public class DTO
 {
     private List<Coords> coordsList;
+    private List<int>    pointFill;
+    private List<int>    pointScoreList;
 
-    private List<int> pointFill;
-    private List<int> pointScoreList;
     public DTO(
         List<Coords> inCoordsList,
         int inLineWeight,
@@ -38,11 +38,6 @@ public class DTO
         get => pointScoreList;
         set => pointScoreList = value ?? throw new ArgumentNullException(nameof(value));
     }
-}
-
-public class LineDictionary
-{
-    public Dictionary<int, DTO> GetLineDictionary { get; set; }
 }
 
 public class Coords

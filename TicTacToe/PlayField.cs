@@ -2,15 +2,17 @@
 
 public class PlayField
 {
-    protected const  int            DiagonalCount = 2;
-    protected const  int            SideCount     = 2;
-    protected const  int            StartScore    = 1;
-    protected static int            MatrixSize;
-    protected static int[,]?        playField;
-    protected static int[,]?        playFieldPointScore;
-    protected static int            lineCount;
-    protected        LineDictionary LineDictionary;
-    protected        int            lineIndex;
+    protected const  int     DiagonalCount = 2;
+    protected const  int     SideCount     = 2;
+    protected const  int     StartScore    = 1;
+    protected static int     MatrixSize;
+    protected static int[,]? playField;
+    protected static int[,]? playFieldPointScore;
+    protected static int     lineCount;
+
+    protected int                  lineIndex;
+    protected Dictionary<int, DTO> localLineDictionary = new Dictionary<int, DTO>();
+    protected DTO                  tempDTO;
     /// <summary>
     ///     Задём игровое поле через его величину
     /// </summary>
@@ -24,6 +26,12 @@ public class PlayField
         lineCount = inputSize * SideCount + DiagonalCount;
         FillPointScore();
         FillLineDictionary();
+    }
+
+    public Dictionary<int, DTO> LineDictionary
+    {
+        get => localLineDictionary;
+        set => localLineDictionary = value ?? throw new ArgumentNullException(nameof(value));
     }
 
     public int this[int column, int row]
@@ -58,8 +66,12 @@ public class PlayField
 
         int TempScore(int inRow1, int inColumn1, int tempScore1, int i)
         {
-            tempScore1 = tempScore1 + playField[i, inColumn1];
-            tempScore1 = tempScore1 + playField[inRow1, i];
+            if (playField != null)
+            {
+                tempScore1 = tempScore1 + playField[i, inColumn1];
+                tempScore1 = tempScore1 + playField[inRow1, i];
+            }
+
             return tempScore1;
         }
 
@@ -72,7 +84,7 @@ public class PlayField
 
             for (int i = 0; i < MatrixSize; i++)
             {
-                tempScore = tempScore + playField[i, i];
+                if (playField != null) tempScore = tempScore + playField[i, i];
             }
         }
 
@@ -85,7 +97,7 @@ public class PlayField
 
             for (int i = 0; i < MatrixSize; i++)
             {
-                tempScore = tempScore + playField[i, -i + MatrixSize - 1];
+                if (playField != null) tempScore = tempScore + playField[i, -i + MatrixSize - 1];
             }
         }
 
@@ -94,8 +106,6 @@ public class PlayField
 
     private void FillLineDictionary()
     {
-        DTO tempDTO;
-
         void FillLineDictionary(int inIndex, int temIndex, MatrixSide inMatrixSide)
         {
             List<Coords> coordsList = GetLineCoordList(temIndex, inMatrixSide);
@@ -103,7 +113,14 @@ public class PlayField
             List<int> pointFill = GetPointFill(temIndex, inMatrixSide);
             List<int> pointScoreList = GetPointScoreList(temIndex, inMatrixSide);
             tempDTO = new DTO(coordsList, lineWeight, pointFill, pointScoreList);
-            LineDictionary.GetLineDictionary.Add(inIndex, tempDTO);
+            if (localLineDictionary.ContainsKey(inIndex))
+            {
+                localLineDictionary[inIndex] = tempDTO;
+            }
+            else
+            {
+                localLineDictionary.Add(inIndex, tempDTO);
+            }
         }
 
         int GetLineWeight(int inIndex, MatrixSide inMatrixSide)
@@ -113,14 +130,14 @@ public class PlayField
             {
                 for (int i = 0; i < MatrixSize; i++)
                 {
-                    tempWeight += playFieldPointScore[inIndex, i];
+                    if (playFieldPointScore != null) tempWeight += playFieldPointScore[inIndex, i];
                 }
             }
             else if (inMatrixSide == MatrixSide.Column)
             {
                 for (int i = 0; i < MatrixSize; i++)
                 {
-                    tempWeight += playFieldPointScore[i, inIndex];
+                    if (playFieldPointScore != null) tempWeight += playFieldPointScore[i, inIndex];
                 }
             }
 
@@ -134,14 +151,14 @@ public class PlayField
             {
                 for (int i = 0; i < MatrixSize; i++)
                 {
-                    tempList.Add(playField[inIndex, i]);
+                    if (playField != null) tempList.Add(playField[inIndex, i]);
                 }
             }
             else if (inSide == MatrixSide.Column)
             {
                 for (int i = 0; i < MatrixSize; i++)
                 {
-                    tempList.Add(playField[i, inIndex]);
+                    if (playField != null) tempList.Add(playField[i, inIndex]);
                 }
             }
 
@@ -155,14 +172,14 @@ public class PlayField
             {
                 for (int i = 0; i < MatrixSize; i++)
                 {
-                    tempList.Add(playFieldPointScore[inputIndex, i]);
+                    if (playFieldPointScore != null) tempList.Add(playFieldPointScore[inputIndex, i]);
                 }
             }
             else if (inMatrixSide == MatrixSide.Column)
             {
                 for (int i = 0; i < MatrixSize; i++)
                 {
-                    tempList.Add(playFieldPointScore[i, inputIndex]);
+                    if (playFieldPointScore != null) tempList.Add(playFieldPointScore[i, inputIndex]);
                 }
             }
 
@@ -208,14 +225,14 @@ public class PlayField
             {
                 for (int i = 0; i < MatrixSize; i++)
                 {
-                    tempSum += playFieldPointScore[i, i];
+                    if (playFieldPointScore != null) tempSum += playFieldPointScore[i, i];
                 }
             }
             else if (inDiagonal == 1)
             {
                 for (int i = 0; i < MatrixSize; i++)
                 {
-                    tempSum += playFieldPointScore[i, -i + MatrixSize - 1];
+                    if (playFieldPointScore != null) tempSum += playFieldPointScore[i, -i + MatrixSize - 1];
                 }
             }
 
@@ -263,7 +280,15 @@ public class PlayField
             List<int> pointFill = GetDiagonalListBy(playField, i);
             List<int> pointScoreList = GetDiagonalListBy(playFieldPointScore, i);
             tempDTO = new DTO(coordsList, lineWeight, pointFill, pointScoreList);
-            LineDictionary.GetLineDictionary.Add(count, tempDTO);
+            if (localLineDictionary.ContainsKey(count))
+            {
+                localLineDictionary[count] = tempDTO;
+            }
+            else
+            {
+                localLineDictionary.Add(count, tempDTO);
+            }
+
             count++;
         }
     }
@@ -302,11 +327,11 @@ public class PlayField
     /// </summary>
     private static void FillNewPlayField()
     {
-        for (int i = 0; i < playField.Length; i++)
+        for (int i = 0; i < MatrixSize; i++)
         {
-            for (int j = 0; j < playField.Length; j++)
+            for (int j = 0; j < MatrixSize; j++)
             {
-                playField[i, j] = StartScore;
+                if (playField != null) playField[i, j] = StartScore;
             }
         }
     }
@@ -314,9 +339,9 @@ public class PlayField
     ///     Получить длину любой стороны матрицы
     /// </summary>
     /// <returns></returns>
-    public int GetLength()
+    public static int GetLength()
     {
-        return playField.GetLength(0);
+        return playField?.GetLength(0) ?? 0;
     }
 
     protected enum MatrixSide
