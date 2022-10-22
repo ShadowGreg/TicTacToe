@@ -69,7 +69,7 @@ public class PlayFieldTests: PlayField
         Assert.AreEqual(-2, actualInt2);
     }
     [Test]
-    public void Line_Dictionary_Point_Score_Test()
+    public void play_Field_Point_Score_Test()
     {
         int playFieldSize = 3;
         var playField = new PlayField(playFieldSize);
@@ -91,6 +91,39 @@ public class PlayFieldTests: PlayField
             { 6, 3, 7 }
         };
         Assert.That(playFieldPointScore[1, 1], Is.EqualTo(expecedPlayFieldPointScore2[1, 1]));
+    }
+    [Test]
+    public void Line_Dictionary_Point_Score_Test()
+    {
+        int playFieldSize = 3;
+        var playField = new PlayField(playFieldSize);
+        Assert.That(playField.LineDictionary[1].PointScoreList[1], Is.EqualTo(12));
+
+        playField[1, 1] = -2;
+        playField[1, 2] = 2;
+        Assert.That(playField.LineDictionary[1].PointScoreList[2], Is.EqualTo(5));
+    }
+    [Test]
+    public void Line_Dictionary_Point_Score_Set_Test()
+    {
+        int playFieldSize = 3;
+        var playField = new PlayField(playFieldSize);
+        var inCoords1 = new Coords { xCoord = 1, yCoord = 2 };
+        var inCoords2 = new Coords { xCoord = 0, yCoord = 0 };
+        List<Coords> inCoordsList = new List<Coords> { inCoords1, inCoords2 };
+        int inLineWeight = 21;
+        List<int> inPointFill = new List<int> { 1, 2, 3 };
+        List<int> inPointScoreList = new List<int> { 1, 2, 3 };
+        var testDTO = new DTO(inCoordsList, inLineWeight, inPointFill, inPointScoreList);
+        playField.LineDictionary[1] = testDTO;
+        Assert.That(playField.LineDictionary[1].PointScoreList[2], Is.EqualTo(3));
+    }
+    [Test]
+    public void Get_Length_Test()
+    {
+        int playFieldSize = 3;
+        var playField = new PlayField(playFieldSize);
+        Assert.That(GetLength(), Is.EqualTo(3));
     }
     private int inputSize = 3;
     public PlayFieldTests(int inputSize): base(inputSize)

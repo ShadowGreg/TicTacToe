@@ -12,20 +12,20 @@ public class Motion: IMotion
         _playerPosition = inputIcon;
     }
     public bool StepMotions(
-        int motionColumn,
         int motionRow,
+        int motionColumn,
         PlayField inputPlayField
     )
     {
-        if (inputPlayField[motionColumn, motionRow] == 0)
+        if (inputPlayField[motionRow, motionColumn] == 1)
         {
             if (_playerPosition == PlayerIcon.O)
             {
-                inputPlayField[motionColumn, motionRow] = BallO;
+                inputPlayField[motionRow, motionColumn] = BallO;
             }
             else if (_playerPosition == PlayerIcon.X)
             {
-                inputPlayField[motionColumn, motionRow] = BallX;
+                inputPlayField[motionRow, motionColumn] = BallX;
             }
 
             return true;
