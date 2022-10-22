@@ -72,15 +72,25 @@ public class PlayFieldTests: PlayField
     public void Line_Dictionary_Point_Score_Test()
     {
         int playFieldSize = 3;
-        var playField = new PlayField(playFieldSize)
-                        {
-                            [1, 1] = -2,
-                            [1, 2] = 2
-                        };
-        int actualInt1 = playField.LineDictionary[0].PointScoreList[1];
-        Assert.AreEqual(1, actualInt1);
-        int actualInt2 = playField.LineDictionary[1].PointScoreList[1];
-        Assert.AreEqual(-2, actualInt2);
+        var playField = new PlayField(playFieldSize);
+        int[,] expecedPlayFieldPointScore =
+        {
+            { 9, 6, 9 },
+            { 6, 12, 6 },
+            { 9, 6, 9 }
+        };
+        Assert.That(playFieldPointScore[1, 1], Is.EqualTo(expecedPlayFieldPointScore[1, 1]));
+
+        playField[1, 1] = -2;
+        playField[1, 2] = 2;
+
+        int[,] expecedPlayFieldPointScore2 =
+        {
+            { 9, 3, 7 },
+            { 4, 1, 5 },
+            { 6, 3, 7 }
+        };
+        Assert.That(playFieldPointScore[1, 1], Is.EqualTo(expecedPlayFieldPointScore2[1, 1]));
     }
     private int inputSize = 3;
     public PlayFieldTests(int inputSize): base(inputSize)

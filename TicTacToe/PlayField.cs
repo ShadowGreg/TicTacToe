@@ -48,7 +48,7 @@ public class PlayField
     /// <summary>
     ///     Заполняем поле баллами
     /// </summary>
-    public static void FillPointScore()
+    protected static void FillPointScore()
     {
         {
             for (int i = 0; i < MatrixSize; i++)
@@ -87,8 +87,7 @@ public class PlayField
                 if (playField != null) tempScore = tempScore + playField[i, i];
             }
         }
-
-        if (inRow == -inColumn + MatrixSize)
+        else if (inRow == -inColumn + MatrixSize - 1)
         {
             for (int i = 0; i < MatrixSize; i++)
             {
@@ -98,6 +97,32 @@ public class PlayField
             for (int i = 0; i < MatrixSize; i++)
             {
                 if (playField != null) tempScore = tempScore + playField[i, -i + MatrixSize - 1];
+            }
+        }
+        else if (inRow != inColumn)
+        {
+            for (int i = 0; i < MatrixSize; i++)
+            {
+                tempScore = TempScore(inRow, inColumn, tempScore, i);
+            }
+        }
+
+        if (MatrixSize == 3 && inRow == 1 && inColumn == 1 || MatrixSize == 5 && inRow == 2 && inColumn == 2)
+        {
+            tempScore = 0;
+            for (int i = 0; i < MatrixSize; i++)
+            {
+                tempScore = TempScore(inRow, inColumn, tempScore, i);
+            }
+
+            for (int i = 0; i < MatrixSize; i++)
+            {
+                if (playField != null) tempScore += playField[i, -i + MatrixSize - 1];
+            }
+
+            for (int i = 0; i < MatrixSize; i++)
+            {
+                if (playField != null) tempScore += playField[i, i];
             }
         }
 
