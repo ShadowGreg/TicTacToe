@@ -2,44 +2,64 @@
 
 public class ComputerMotion: IMotion
 {
-    private const           int        BallO = -2;
-    private const           int        BallX = 2;
-    private static          PlayField  inPlayField;
-    private static          int[]      localLineFilling;
-    private static          int[]      localLineWeight;
-    private static readonly int[]      motionArray = new int[PlayField.GetLength() * PlayField.GetLength()];
-    private readonly        PlayerIcon setPlayerIcon;
+    private const    int        BallO = -2;
+    private const    int        BallX = 2;
+    private readonly PlayerIcon _setPlayerIcon;
+
 
     public ComputerMotion(PlayerIcon inputIcon)
     {
-        setPlayerIcon = inputIcon;
+        _setPlayerIcon = inputIcon;
     }
     public bool StepMotions(
-        int motionColumn,
-        int motionRow,
         PlayField inputPlayField
     )
     {
-        inPlayField = inputPlayField;
-        if (inputPlayField[motionColumn, motionRow] == 0)
+        List<int> localLineWeightList = inputPlayField.LineDictionary.Select(e => e.Key).ToList();
+
+        List<int> GetMaxList(List<int> inputList)
         {
-            if (setPlayerIcon == PlayerIcon.O)
+            List<int> outputIndexList = new List<int>();
+            int maxItem = inputList.Max();
+            for (int i = 0; i < inputList.Count; i++)
             {
-                inputPlayField[motionColumn, motionRow] = BallO;
-            }
-            else if (setPlayerIcon == PlayerIcon.X)
-            {
-                inputPlayField[motionColumn, motionRow] = BallX;
+                if (inputList[i] == maxItem)
+                    outputIndexList.Add(i);
             }
 
-            return true;
+            return outputIndexList;
         }
 
-        return false;
-    }
+        Coords CoordStepPoint()
+        {
+            var rand = new Random();
+            List<int> listMaxLineWeight = GetMaxList(localLineWeightList);
+            int lineIndex = rand.Next(listMaxLineWeight.Count);
+            List<int> pointScoreList = inputPlayField.LineDictionary[listMaxLineWeight[lineIndex]].PointScoreList;
+            List<int> maxPointScoreList = GetMaxList(pointScoreList);
+            int pointIndex = rand.Next(maxPointScoreList.Count);
+            return inputPlayField.LineDictionary[lineIndex].CoordsList[pointIndex];
+        }
 
+        bool SetMotion(int inMotionColumn, int inMotionRow)
+        {
+            if (inputPlayField[inMotionColumn, inMotionRow] == 0)
+            {
+                if (_setPlayerIcon == PlayerIcon.O)
+                {
+                    inputPlayField[inMotionColumn, inMotionRow] = BallO;
+                }
+                else if (_setPlayerIcon == PlayerIcon.X)
+                {
+                    inputPlayField[inMotionColumn, inMotionRow] = BallX;
+                }
 
-    private void FillMotionArray()
-    {
+                return true;
+            }
+
+            return false;
+        }
+
+        return SetMotion(CoordStepPoint().yCoord, CoordStepPoint().xCoord);
     }
 }

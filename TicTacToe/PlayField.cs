@@ -28,18 +28,29 @@ public class PlayField
         FillLineDictionary();
     }
 
+    /// <summary>
+    ///     Получение и передача ??? - а нужна ли передача???
+    /// </summary>
+    /// <exception cref="ArgumentNullException"></exception>
     public Dictionary<int, DTO> LineDictionary
     {
         get => localLineDictionary;
         set => localLineDictionary = value ?? throw new ArgumentNullException(nameof(value));
     }
 
+    /// <summary>
+    ///     Установка нового хода в указанную позицию в матрице
+    /// </summary>
+    /// <param name="column">координаты колонки</param>
+    /// <param name="row">координаты строки</param>
     public int this[int column, int row]
     {
         get => playField != null ? playField[column, row] : 0;
         set
         {
-            if (playField != null) playField[column, row] = value;
+            if (playField != null &&
+                playField[column, row] == 1)
+                playField[column, row] = value;
             FillPointScore();
             FillLineDictionary();
         }
@@ -60,6 +71,12 @@ public class PlayField
             }
         }
     }
+    /// <summary>
+    ///     Получить очки
+    /// </summary>
+    /// <param name="inRow"></param>
+    /// <param name="inColumn"></param>
+    /// <returns></returns>
     private static int GetPointScore(int inRow, int inColumn)
     {
         int tempScore = 0;
@@ -369,6 +386,9 @@ public class PlayField
         return playField?.GetLength(0) ?? 0;
     }
 
+    /// <summary>
+    ///     Сторона матрицы через enum
+    /// </summary>
     protected enum MatrixSide
     {
         Row,

@@ -2,9 +2,12 @@
 
 public interface IMotion
 {
-    public bool StepMotions(
+    public virtual bool StepMotions(
         int motionColumn,
         int motionRow,
         PlayField inputPlayField
-    );
+    )
+    {
+        return true;
+    }
 }
