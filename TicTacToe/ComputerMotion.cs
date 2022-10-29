@@ -68,17 +68,17 @@ public class ComputerMotion: IMotion
         }
 
         ///Делаем ход с проверкой поля на условную пустоту - за него отвечает 1
-        bool SetMotion(int inMotionColumn, int inMotionRow)
+        bool SetMotion(Coords inCoord)
         {
-            if (inputPlayField[inMotionColumn, inMotionRow] == 1)
+            if (inputPlayField[inCoord.xCoord, inCoord.yCoord] == 1)
             {
                 if (_setPlayerIcon == PlayerIcon.O)
                 {
-                    inputPlayField[inMotionColumn, inMotionRow] = BallO;
+                    inputPlayField[inCoord.xCoord, inCoord.yCoord] = BallO;
                 }
                 else if (_setPlayerIcon == PlayerIcon.X)
                 {
-                    inputPlayField[inMotionColumn, inMotionRow] = BallX;
+                    inputPlayField[inCoord.xCoord, inCoord.yCoord] = BallX;
                 }
 
                 return true;
@@ -87,6 +87,6 @@ public class ComputerMotion: IMotion
             return false;
         }
 
-        return SetMotion(CoordStepPoint().yCoord, CoordStepPoint().xCoord);
+        return SetMotion(CoordStepPoint());
     }
 }
