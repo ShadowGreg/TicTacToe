@@ -34,16 +34,29 @@ public class ComputerMotion: IMotion
             return lineWeight;
         }
 
-        ///Получаем неопределенный лист максимальных значений
-        List<int> GetMaxList(List<int> inputList)
+        ///Получаем неопределенный лист Отличных от прочих значений
+        List<int> GetEvolvedList(List<int> inputList)
         {
             List<int> outputIndexList = new List<int>();
-            int maxItem = inputList.Max();
-            for (int i = 0; i < inputList.Count; i++)
+            if (_setPlayerIcon == PlayerIcon.X)
             {
-                if (inputList[i] == maxItem)
-                    outputIndexList.Add(i);
+                int maxItem = inputList.Max();
+                for (int i = 0; i < inputList.Count; i++)
+                {
+                    if (inputList[i] == maxItem)
+                        outputIndexList.Add(i);
+                }
             }
+            else if (_setPlayerIcon == PlayerIcon.O)
+            {
+                int minItem = inputList.Min();
+                for (int i = 0; i < inputList.Count; i++)
+                {
+                    if (inputList[i] == minItem)
+                        outputIndexList.Add(i);
+                }
+            }
+
 
             return outputIndexList;
         }
@@ -59,10 +72,10 @@ public class ComputerMotion: IMotion
                 return inList[index];
             }
 
-            List<int> listMaxLineWeight = GetMaxList(localLineWeightList);
+            List<int> listMaxLineWeight = GetEvolvedList(localLineWeightList);
             int lineIndex = GetRandIndex(listMaxLineWeight);
             List<int> pointScoreList = inputPlayField.LineDictionary[lineIndex].PointScoreList;
-            List<int> maxPointScoreList = GetMaxList(pointScoreList);
+            List<int> maxPointScoreList = GetEvolvedList(pointScoreList);
             int pointIndex = GetRandIndex(maxPointScoreList);
             return inputPlayField.LineDictionary[lineIndex].CoordsList[pointIndex];
         }
