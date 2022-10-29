@@ -74,15 +74,23 @@ public class ComputerMotion: IMotion
 
             List<int> listMaxLineWeight = GetEvolvedList(localLineWeightList);
             int lineIndex = GetRandIndex(listMaxLineWeight);
+            ///TODO Здесь надо исключать отработанные точки из листа
             List<int> pointScoreList = inputPlayField.LineDictionary[lineIndex].PointScoreList;
             List<int> maxPointScoreList = GetEvolvedList(pointScoreList);
             int pointIndex = GetRandIndex(maxPointScoreList);
+
             return inputPlayField.LineDictionary[lineIndex].CoordsList[pointIndex];
         }
 
         ///Делаем ход с проверкой поля на условную пустоту - за него отвечает 1
-        bool SetMotion(Coords inCoord)
+        bool SetMotion()
         {
+            Coords inCoord = CoordStepPoint();
+            while (inputPlayField[inCoord.xCoord, inCoord.yCoord] != 1)
+            {
+                inCoord = CoordStepPoint();
+            }
+
             if (inputPlayField[inCoord.xCoord, inCoord.yCoord] == 1)
             {
                 if (_setPlayerIcon == PlayerIcon.O)
@@ -93,13 +101,12 @@ public class ComputerMotion: IMotion
                 {
                     inputPlayField[inCoord.xCoord, inCoord.yCoord] = BallX;
                 }
-
-                return true;
             }
 
-            return false;
+
+            return true;
         }
 
-        return SetMotion(CoordStepPoint());
+        return SetMotion();
     }
 }
