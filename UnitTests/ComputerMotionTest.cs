@@ -32,4 +32,23 @@ public class ComputerMotionTest
         bool motionItem2 = secondPlayer.StepMotions(playField);
         Assert.That(motionItem2, Is.EqualTo(true));
     }
+    [Test]
+    public void Same_Players_Steps_Test()
+    {
+        int playFieldSize = 3;
+        var playerIcon1 = PlayerIcon.O;
+        var playerIcon2 = PlayerIcon.X;
+        var playField = new PlayField(playFieldSize);
+        var firstPlayer = new ComputerMotion(playerIcon2);
+        var secondPlayer = new ComputerMotion(playerIcon1);
+
+        for (int i = 0; i < 3; i++)
+        {
+            bool motionItem1 = firstPlayer.StepMotions(playField);
+            Assert.That(motionItem1, Is.EqualTo(true));
+
+            bool motionItem2 = secondPlayer.StepMotions(playField);
+            Assert.That(motionItem2, Is.EqualTo(true));
+        }
+    }
 }
