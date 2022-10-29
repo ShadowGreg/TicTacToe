@@ -5,18 +5,36 @@ public class ComputerMotion: IMotion
     private const    int        BallO = -2;
     private const    int        BallX = 2;
     private readonly PlayerIcon _setPlayerIcon;
+    private          PlayField  localPlayField;
 
 
     public ComputerMotion(PlayerIcon inputIcon)
     {
         _setPlayerIcon = inputIcon;
     }
-    public bool StepMotions(
-        PlayField inputPlayField
-    )
+    /// <summary>
+    ///     Рассчитываем компьютерный ход
+    /// </summary>
+    /// <param name="inputPlayField">подаваемое игровое поле на вход</param>
+    /// <returns></returns>
+    public bool StepMotions(PlayField inputPlayField)
     {
-        List<int> localLineWeightList = inputPlayField.LineDictionary.Select(e => e.Key).ToList();
+        localPlayField = inputPlayField;
+        List<int> localLineWeightList = new List<int>(GetLineWeight());
 
+        ///Обрабатываем словари и веса линий
+        IEnumerable<int> GetLineWeight()
+        {
+            List<int> lineWeight = new List<int>();
+            for (int i = 0; i < localPlayField.LineDictionary.Count; i++)
+            {
+                lineWeight.Add(localPlayField.LineDictionary[i].LineWeight);
+            }
+
+            return lineWeight;
+        }
+
+        ///Получаем неопределенный лист максимальных значений
         List<int> GetMaxList(List<int> inputList)
         {
             List<int> outputIndexList = new List<int>();
@@ -30,6 +48,7 @@ public class ComputerMotion: IMotion
             return outputIndexList;
         }
 
+        ///Координаты точки установки
         Coords CoordStepPoint()
         {
             var rand = new Random();
@@ -41,9 +60,10 @@ public class ComputerMotion: IMotion
             return inputPlayField.LineDictionary[lineIndex].CoordsList[pointIndex];
         }
 
+        ///Делаем ход с проверкой поля на условную пустоту - за него отвечает 1
         bool SetMotion(int inMotionColumn, int inMotionRow)
         {
-            if (inputPlayField[inMotionColumn, inMotionRow] == 0)
+            if (inputPlayField[inMotionColumn, inMotionRow] == 1)
             {
                 if (_setPlayerIcon == PlayerIcon.O)
                 {
