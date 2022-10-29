@@ -48,15 +48,22 @@ public class ComputerMotion: IMotion
             return outputIndexList;
         }
 
-        ///Координаты точки установки
+        ///Автоматически находим координаты точки установки
         Coords CoordStepPoint()
         {
-            var rand = new Random();
+            ///Возвращем случайное число из списка
+            int GetRandIndex(IReadOnlyList<int> inList)
+            {
+                var rand = new Random();
+                int index = rand.Next(inList.Count);
+                return inList[index];
+            }
+
             List<int> listMaxLineWeight = GetMaxList(localLineWeightList);
-            int lineIndex = rand.Next(listMaxLineWeight.Count);
-            List<int> pointScoreList = inputPlayField.LineDictionary[listMaxLineWeight[lineIndex]].PointScoreList;
+            int lineIndex = GetRandIndex(listMaxLineWeight);
+            List<int> pointScoreList = inputPlayField.LineDictionary[lineIndex].PointScoreList;
             List<int> maxPointScoreList = GetMaxList(pointScoreList);
-            int pointIndex = rand.Next(maxPointScoreList.Count);
+            int pointIndex = GetRandIndex(maxPointScoreList);
             return inputPlayField.LineDictionary[lineIndex].CoordsList[pointIndex];
         }
 

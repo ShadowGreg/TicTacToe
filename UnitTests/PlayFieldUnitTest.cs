@@ -71,26 +71,26 @@ public class PlayFieldTests: PlayField
     [Test]
     public void play_Field_Point_Score_Test()
     {
-        int playFieldSize = 3;
+        const int playFieldSize = 3;
         var playField = new PlayField(playFieldSize);
-        int[,] expecedPlayFieldPointScore =
+        int[,] expectedPlayFieldPointScore =
         {
             { 9, 6, 9 },
             { 6, 12, 6 },
             { 9, 6, 9 }
         };
-        Assert.That(playFieldPointScore[1, 1], Is.EqualTo(expecedPlayFieldPointScore[1, 1]));
+        Assert.That(playFieldPointScore[1, 1], Is.EqualTo(expectedPlayFieldPointScore[1, 1]));
 
         playField[1, 1] = -2;
         playField[1, 2] = 2;
 
-        int[,] expecedPlayFieldPointScore2 =
+        int[,] expectedPlayFieldPointScore2 =
         {
             { 9, 3, 7 },
             { 4, 1, 5 },
             { 6, 3, 7 }
         };
-        Assert.That(playFieldPointScore[1, 1], Is.EqualTo(expecedPlayFieldPointScore2[1, 1]));
+        Assert.That(playFieldPointScore[1, 1], Is.EqualTo(expectedPlayFieldPointScore2[1, 1]));
     }
     [Test]
     public void Line_Dictionary_Point_Score_Test()
