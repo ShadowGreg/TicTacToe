@@ -44,7 +44,7 @@ public class ComputerMotionTest
 
         for (int i = 0; i < 3; i++)
         {
-            bool motionItem1 = firstPlayer.StepMotions(playField); ///TODO Возникает не постоянная ошибка
+            bool motionItem1 = firstPlayer.StepMotions(playField); 
             Assert.That(motionItem1, Is.EqualTo(true));
 
             bool motionItem2 = secondPlayer.StepMotions(playField);
