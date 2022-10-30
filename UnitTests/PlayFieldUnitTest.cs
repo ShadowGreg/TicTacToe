@@ -82,15 +82,24 @@ public class PlayFieldTests: PlayField
         Assert.That(playFieldPointScore[1, 1], Is.EqualTo(expectedPlayFieldPointScore[1, 1]));
 
         playField[1, 1] = -2;
-        playField[1, 2] = 2;
 
         int[,] expectedPlayFieldPointScore2 =
         {
-            { 9, 3, 7 },
-            { 4, 1, 5 },
-            { 6, 3, 7 }
+            { 6, 3, 6 },
+            { 4, 0, 3 },
+            { 6, 3, 6 }
         };
         Assert.That(playFieldPointScore[1, 1], Is.EqualTo(expectedPlayFieldPointScore2[1, 1]));
+
+        playField[2, 0] = 2;
+
+        int[,] expectedPlayFieldPointScore3 =
+        {
+            { 7, 4, 9 },
+            { 3, 1, 3 },
+            { 7, 3, 6 }
+        };
+        Assert.That(playFieldPointScore[1, 2], Is.EqualTo(expectedPlayFieldPointScore3[1, 2]));
     }
     [Test]
     public void Line_Dictionary_Point_Score_Test()
@@ -101,7 +110,7 @@ public class PlayFieldTests: PlayField
 
         playField[1, 1] = -2;
         playField[1, 2] = 2;
-        Assert.That(playField.LineDictionary[1].PointScoreList[2], Is.EqualTo(5));
+        Assert.That(playField.LineDictionary[1].PointScoreList[2], Is.EqualTo(3));
     }
     [Test]
     public void Line_Dictionary_Point_Score_Set_Test()
@@ -124,6 +133,37 @@ public class PlayFieldTests: PlayField
         int playFieldSize = 3;
         var playField = new PlayField(playFieldSize);
         Assert.That(GetLength(), Is.EqualTo(3));
+    }
+
+    [Test]
+    public void Order_Line_Weights_Test()
+    {
+        int playFieldSize = 3;
+        var playField = new PlayField(playFieldSize)
+                        {
+                            [0, 0] = 2,
+                            [1, 0] = 2
+                        };
+        List<int> actualLineWeight = new List<int>();
+        for (int i = 0; i < playField.LineDictionary.Count; i++)
+        {
+            actualLineWeight.Add(playField.LineDictionary[i].LineWeight);
+        }
+
+        List<int> expectedLineWeight = new List<int>
+                                       {
+                                           33,
+                                           27,
+                                           27,
+                                           30,
+                                           30,
+                                           27,
+                                           37,
+                                           35
+                                       };
+
+
+        Assert.That(actualLineWeight, Is.EqualTo(expectedLineWeight));
     }
     private int inputSize = 3;
     public PlayFieldTests(int inputSize): base(inputSize)

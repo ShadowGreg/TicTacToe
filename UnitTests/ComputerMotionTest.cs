@@ -32,6 +32,7 @@ public class ComputerMotionTest
         bool motionItem2 = secondPlayer.StepMotions(playField);
         Assert.That(motionItem2, Is.EqualTo(true));
     }
+
     [Test]
     public void Several_Players_Steps_Test()
     {
@@ -44,11 +45,27 @@ public class ComputerMotionTest
 
         for (int i = 0; i < 3; i++)
         {
-            bool motionItem1 = firstPlayer.StepMotions(playField); 
+            bool motionItem1 = firstPlayer.StepMotions(playField);
             Assert.That(motionItem1, Is.EqualTo(true));
 
             bool motionItem2 = secondPlayer.StepMotions(playField);
             Assert.That(motionItem2, Is.EqualTo(true));
         }
+    }
+
+    [Test]
+    public void Сritical_Сhoice_Test()
+    {
+        int playFieldSize = 3;
+        var playerIcon1 = PlayerIcon.O;
+        var playerIcon2 = PlayerIcon.X;
+        var playField = new PlayField(playFieldSize);
+        var firstPlayer = new ComputerMotion(playerIcon1);
+        var secondPlayer = new ComputerMotion(playerIcon2);
+        playField[0, 0] = 2;
+        playField[1, 1] = -2;
+        playField[0, 1] = 2;
+        bool motionItem = secondPlayer.StepMotions(playField);
+        Assert.That(motionItem, Is.EqualTo(true));
     }
 }

@@ -36,10 +36,9 @@ public class ComputerMotion: IMotion
 
         ///Получаем неопределенный лист Отличных от прочих значений
         List<int> GetEvolvedList(List<int> inputList)
-            ///TODO поменять местами иконки, что бы препятствовать победе противника - поменял
         {
             List<int> outputIndexList = new List<int>();
-            if (_setPlayerIcon == PlayerIcon.O)
+            if (_setPlayerIcon == PlayerIcon.X)
             {
                 int maxItem = inputList.Max();
                 for (int i = 0; i < inputList.Count; i++)
@@ -48,12 +47,12 @@ public class ComputerMotion: IMotion
                         outputIndexList.Add(i);
                 }
             }
-            else if (_setPlayerIcon == PlayerIcon.X)
+            else if (_setPlayerIcon == PlayerIcon.O)
             {
-                int minItem = inputList.Min();
+                int maxItem = inputList.Max();
                 for (int i = 0; i < inputList.Count; i++)
                 {
-                    if (inputList[i] == minItem)
+                    if (inputList[i] == maxItem)
                         outputIndexList.Add(i);
                 }
             }
@@ -76,7 +75,7 @@ public class ComputerMotion: IMotion
                     return inList[index];
                 }
 
-                return 0;
+                return inList[0];
             }
 
             List<int> GetEvolvedPointList(int inLineIndex)

@@ -29,7 +29,7 @@ public class PlayField
     }
 
     /// <summary>
-    ///     Получение и передача ??? - а нужна ли передача???
+    ///     Получение и передача
     /// </summary>
     /// <exception cref="ArgumentNullException"></exception>
     public Dictionary<int, DTO> LineDictionary
@@ -305,13 +305,13 @@ public class PlayField
         int count = 0;
         for (int i = 0; i < MatrixSize; i++)
         {
-            FillLineDictionary(count, i, MatrixSide.Row);
+            FillLineDictionary(count, i, MatrixSide.Column);
             count++;
         }
 
         for (int i = 0; i < MatrixSize; i++)
         {
-            FillLineDictionary(count, i, MatrixSide.Column);
+            FillLineDictionary(count, i, MatrixSide.Row);
             count++;
         }
 
