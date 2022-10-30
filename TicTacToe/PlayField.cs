@@ -8,9 +8,7 @@ public class PlayField
     protected static int     MatrixSize;
     protected static int[,]? playField;
     protected static int[,]? playFieldPointScore;
-    protected static int     lineCount;
 
-    protected int                  lineIndex;
     protected Dictionary<int, DTO> localLineDictionary = new Dictionary<int, DTO>();
     protected DTO                  tempDTO;
     /// <summary>
@@ -23,7 +21,6 @@ public class PlayField
         playField           = new int[MatrixSize, MatrixSize];
         playFieldPointScore = new int[MatrixSize, MatrixSize];
         FillNewPlayField();
-        lineCount = inputSize * SideCount + DiagonalCount;
         FillPointScore();
         FillLineDictionary();
     }
