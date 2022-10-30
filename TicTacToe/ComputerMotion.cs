@@ -36,6 +36,7 @@ public class ComputerMotion: IMotion
 
         ///Получаем неопределенный лист Отличных от прочих значений
         List<int> GetEvolvedList(List<int> inputList)
+            ///TODO поменять местами иконки, что бы препятствовать победе противника 
         {
             List<int> outputIndexList = new List<int>();
             if (_setPlayerIcon == PlayerIcon.X)
@@ -72,12 +73,25 @@ public class ComputerMotion: IMotion
                 return inList[index];
             }
 
+            List<int> GetEvolvedPointList(int inLineIndex)
+            {
+                List<int> pointScoreList = inputPlayField.LineDictionary[inLineIndex].PointScoreList;
+                List<int> pointIndex = new List<int>();
+                for (int i = 0; i < pointScoreList.Count; i++)
+                {
+                    if (inputPlayField.LineDictionary[inLineIndex].PointFill[i] == 1)
+                    {
+                        pointIndex.Add(i);
+                    }
+                }
+
+                return pointIndex;
+            }
+
             List<int> listMaxLineWeight = GetEvolvedList(localLineWeightList);
             int lineIndex = GetRandIndex(listMaxLineWeight);
-            ///TODO Здесь надо исключать отработанные точки из листа
-            List<int> pointScoreList = inputPlayField.LineDictionary[lineIndex].PointScoreList;
-            List<int> maxPointScoreList = GetEvolvedList(pointScoreList);
-            int pointIndex = GetRandIndex(maxPointScoreList);
+            List<int> evolvedPointScoreList = GetEvolvedPointList(lineIndex);
+            int pointIndex = GetRandIndex(evolvedPointScoreList);
 
             return inputPlayField.LineDictionary[lineIndex].CoordsList[pointIndex];
         }
@@ -86,11 +100,6 @@ public class ComputerMotion: IMotion
         bool SetMotion()
         {
             Coords inCoord = CoordStepPoint();
-            while (inputPlayField[inCoord.xCoord, inCoord.yCoord] != 1)
-            {
-                inCoord = CoordStepPoint();
-            }
-
             if (inputPlayField[inCoord.xCoord, inCoord.yCoord] == 1)
             {
                 if (_setPlayerIcon == PlayerIcon.O)
