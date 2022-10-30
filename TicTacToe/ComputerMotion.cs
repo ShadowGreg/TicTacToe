@@ -36,10 +36,10 @@ public class ComputerMotion: IMotion
 
         ///Получаем неопределенный лист Отличных от прочих значений
         List<int> GetEvolvedList(List<int> inputList)
-            ///TODO поменять местами иконки, что бы препятствовать победе противника 
+            ///TODO поменять местами иконки, что бы препятствовать победе противника - поменял
         {
             List<int> outputIndexList = new List<int>();
-            if (_setPlayerIcon == PlayerIcon.X)
+            if (_setPlayerIcon == PlayerIcon.O)
             {
                 int maxItem = inputList.Max();
                 for (int i = 0; i < inputList.Count; i++)
@@ -48,7 +48,7 @@ public class ComputerMotion: IMotion
                         outputIndexList.Add(i);
                 }
             }
-            else if (_setPlayerIcon == PlayerIcon.O)
+            else if (_setPlayerIcon == PlayerIcon.X)
             {
                 int minItem = inputList.Min();
                 for (int i = 0; i < inputList.Count; i++)
@@ -69,9 +69,16 @@ public class ComputerMotion: IMotion
             int GetRandIndex(IReadOnlyList<int> inList)
             {
                 var rand = new Random();
-                int index = rand.Next(inList.Count);
-                return inList[index];
+                const int minValue = 0;
+                int index = rand.Next(minValue, inList.Count);
+                if (inList.Count > 1)
+                {
+                    return inList[index]; ///TODO Возникает не постоянная ошибка
+                }
+
+                return 0;
             }
+            ///TODO Index was out of range. Must be non-negative and less than the size of the collection. (Parameter 'index')
 
             List<int> GetEvolvedPointList(int inLineIndex)
             {
@@ -91,7 +98,7 @@ public class ComputerMotion: IMotion
             List<int> listMaxLineWeight = GetEvolvedList(localLineWeightList);
             int lineIndex = GetRandIndex(listMaxLineWeight);
             List<int> evolvedPointScoreList = GetEvolvedPointList(lineIndex);
-            int pointIndex = GetRandIndex(evolvedPointScoreList);
+            int pointIndex = GetRandIndex(evolvedPointScoreList); ///TODO Возникает не постоянная ошибка
 
             return inputPlayField.LineDictionary[lineIndex].CoordsList[pointIndex];
         }
@@ -99,7 +106,7 @@ public class ComputerMotion: IMotion
         ///Делаем ход с проверкой поля на условную пустоту - за него отвечает 1
         bool SetMotion()
         {
-            Coords inCoord = CoordStepPoint();
+            Coords inCoord = CoordStepPoint(); ///TODO Возникает не постоянная ошибка
             if (inputPlayField[inCoord.xCoord, inCoord.yCoord] == 1)
             {
                 if (_setPlayerIcon == PlayerIcon.O)
@@ -116,6 +123,6 @@ public class ComputerMotion: IMotion
             return true;
         }
 
-        return SetMotion();
+        return SetMotion(); ///TODO Возникает не постоянная ошибка
     }
 }

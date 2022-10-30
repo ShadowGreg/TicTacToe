@@ -33,7 +33,7 @@ public class ComputerMotionTest
         Assert.That(motionItem2, Is.EqualTo(true));
     }
     [Test]
-    public void Same_Players_Steps_Test()
+    public void Several_Players_Steps_Test()
     {
         int playFieldSize = 3;
         var playerIcon1 = PlayerIcon.O;
@@ -44,7 +44,7 @@ public class ComputerMotionTest
 
         for (int i = 0; i < 3; i++)
         {
-            bool motionItem1 = firstPlayer.StepMotions(playField);
+            bool motionItem1 = firstPlayer.StepMotions(playField); ///TODO Возникает не постоянная ошибка
             Assert.That(motionItem1, Is.EqualTo(true));
 
             bool motionItem2 = secondPlayer.StepMotions(playField);
